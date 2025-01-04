@@ -1,0 +1,16 @@
+<h1 class="title_text">Welcome to the Movie Master App!</h1>
+<h2 class="title_text">Review, comment and keep track of your favorite movies</h2>
+
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <label for="username">Username</label>
+    <input id="username" type="text" formControlName="username" placeholder="Enter your username">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" placeholder="Enter your password">
+
+    <button type="submit">Login</button>
+
+    <button type="button" (click)="navigateToAuth()">New User? Create an account now!</button>
+</form>
+<p class="errorMessage">{{errorMessage}}</p>
+

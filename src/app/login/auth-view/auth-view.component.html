@@ -1,0 +1,14 @@
+<h1 class="title_text">Register now to start your movie journey!</h1>
+<form [formGroup]="authForm" (ngSubmit)="onAuth()">
+    <label for="username">Username</label>
+    <input id="username" type="text" formControlName="username" placeholder="Enter your new username">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" placeholder="Enter yournew  password">
+
+    <button type="submit">Create the account!</button>
+    
+    <button type="button" (click)="navigateToLogin()">Back to Log in</button>
+</form>
+
+<p class="errorMessage">{{errorMessage}}</p>

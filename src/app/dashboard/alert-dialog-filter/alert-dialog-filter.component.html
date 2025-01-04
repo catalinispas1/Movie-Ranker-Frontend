@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Apply Filters</h2>
+<div mat-dialog-content>
+  <form [formGroup]="filterForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Sort By</mat-label>
+      <mat-select formControlName="sort_by">
+        <mat-option value="popularity.desc">Popularity (Descending)</mat-option>
+        <mat-option value="popularity.asc">Popularity (Ascending)</mat-option>
+        <mat-option value="release_date.asc">Release Date (Ascending)</mat-option>
+        <mat-option value="release_date.desc">Release Date (Descending)</mat-option>
+        <mat-option value="vote_average.asc">Rating (Ascending)</mat-option>
+        <mat-option value="vote_average.desc">Rating (Descending)</mat-option>
+        <mat-option value="vote_count.asc">Vote Count (Ascending)</mat-option>
+        <mat-option value="vote_count.desc">Vote Count (Descending)</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Release Year</mat-label>
+      <input matInput type="number" formControlName="primary_release_year" />
+    </mat-form-field>
+
+    <mat-checkbox formControlName="include_adult">Include Explicit Content</mat-checkbox>
+
+    <div>
+      <h4>Genres</h4>
+      <div class="genres-grid">
+        <div *ngFor="let genre of genres">
+          <mat-checkbox
+            [value]="genre.id.toString()"
+            (change)="onGenreChange($event)"
+            [checked]="selectedGenres.includes(genre.id)"
+          >
+            {{ genre.name }}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="clearFilters()">Clear All</button>
+  <button mat-button mat-dialog-close (click)="applyFilters()">Apply</button>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

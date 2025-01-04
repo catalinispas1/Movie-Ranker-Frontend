@@ -1,0 +1,110 @@
+<div class="details_and_poster">
+    <div class="grid_item">
+        <img [src]="'https://image.tmdb.org/t/p/original' + currentMovie?.backdrop_path" alt="Movie Poster" id="backdrop_img">
+    </div>
+
+    <div class="center_movie_details">
+        <div class="movie_container">
+
+            <h1 id="movie_title">{{currentMovie?.title}} </h1>
+
+            <div class="movie_genres">
+                <p style="font-size: 2rem; margin: 0px;" class="genres_title">Genres:</p>
+                <div class="genres_list">
+                    <p class="element genre_element" *ngFor="let genre of currentMovie?.genres">
+                        {{genre.name}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="movie_details">
+                <p class="element">Original Title - {{currentMovie?.original_title}}</p>
+                <p class="element">Popularity - {{currentMovie?.popularity}}</p>
+                <p class="element">Release Date - {{currentMovie?.release_date}} </p>
+                <p class="element">Runtime - {{currentMovie?.runtime}}  minutes </p>
+                <p class="element">Average Vote - {{currentMovie?.vote_average}} </p>
+                <p class="element">Vote Count - {{currentMovie?.vote_count}} </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<p id="movie_overview" class="element">{{currentMovie?.overview}}</p>
+
+<div class="movie_feedback">
+    <div class="rating_container">
+        <label class="rating_label">{{rateText}}</label>
+        <div class="rating_stars">
+            <fa-icon
+              *ngFor="let star of [].constructor(totalStars); let index = index"
+              [icon]="faStar"
+              [class.filled]="index < (hoveredStars || selectedStars)"
+              (click)="selectRating(index + 1)"
+              (mouseenter)="hoverRating(index + 1)"
+              (mouseleave)="resetHover()"
+              class="star">
+            </fa-icon>
+        </div>
+    </div>
+    
+    <div class="favorite_container">
+        <label class="favorite_label">{{addToFavText}}</label>
+        <button mat-icon-button 
+            (click)="toggleFavorite()" 
+            [color]="isFavorite ? 'warn' : 'default'" 
+            class="favorite_button">
+            <mat-icon class="favorite_button">{{ isFavorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div class="additional_details">
+
+    <div class="production_companies">
+        <div class="production_list">
+            <p class="side_element element" *ngFor="let companies of currentMovie?.production_companies">
+                {{companies?.name}}
+            </p>
+        </div>
+    </div>
+
+    <div class="average_rating">
+        <p class="side_element element rating">Average Rating by Users: {{averageMovieRating}}/5</p>
+    </div>
+
+    <div class="side_details">
+        <div class="second_flex">
+            <p class="side_element element">Original Language - {{currentMovie?.original_language}}</p>
+            <p class="side_element element">Tagline - {{currentMovie?.tagline}}</p>
+            <p class="side_element element">Status - {{currentMovie?.status}}</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="comments_container">
+    <div class="post_comment_container">
+        <mat-form-field class="example-full-width" class="comment_input">
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput placeholder="Ex. It makes me feel..."[(ngModel)]="currentComment"></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" class="post_comment_btn" (click)="postComment(currentComment)">Post</button>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <mat-divider style="padding-bottom: 20px;"></mat-divider>
+
+    <div class="user_comments_container">
+        <div class="comment" *ngFor="let comment of displayedComments">
+            <div class="com_details">
+                <p class="comment_author">- {{comment?.commentatorName}}</p>
+                <p class="comment_date">{{comment?.timePosted}}</p>
+            </div>
+            <p class="comment_text">{{comment?.comment}}</p>
+        </div>
+        <button *ngIf="loadCommentsButtonVisibility" mat-raised-button color="primary" class="post_comment_btn" style="margin: 30px;" (click)="getComments(currentCommentPage)">Load More Comments</button>
+    </div>
+</div>
+

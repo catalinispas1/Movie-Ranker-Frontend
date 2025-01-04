@@ -1,0 +1,35 @@
+<mat-toolbar color="primary" class="main-toolbar">
+      <span class="app_title pointer_cursor" (click)="refreshPage()">Movie Master</span>
+      <button mat-icon-button class="example-icon filter-icon pointer_cursor" aria-label="Example icon-button with heart icon" (click)="showFilterDialog()">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" style="cursor: pointer; z-index: 1;" (click)="getFavoriteMovies()">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <span class="user_link pointer_cursor">Salut, {{userDetails?.username}}!</span>
+</mat-toolbar>
+
+<form class="example-form" (ngSubmit)="onSearchSubmit(searchInput.value)">
+  <mat-form-field class="example-full-width">
+  <mat-label>Search for a Movie</mat-label>
+  <input matInput #searchInput placeholder="Tip: Movie or Keyword" class="mat-form-field">
+  </mat-form-field>
+</form>
+
+<div class="grid_centered">
+  <div class="grid_film_container">
+      <div *ngFor="let movie of movieResponse?.results" [routerLink]="['/movie/details']" [queryParams]="{ movie_id: movie.id }" class="flex_film_container" (click)="saveScrollPosition()">
+        <h2 class="movie_title">{{movie?.title}}</h2>
+        <img [src]="'https://image.tmdb.org/t/p/w300' + movie?.poster_path" alt="{{movie?.title}}" id="poster_image">
+      </div>
+  </div>
+</div>
+
+<mat-paginator
+  [length]="movieResponse?.total_results"
+  [pageSize]="20"
+  [pageIndex]="currentPageIndex"
+  (page)="onPageEvent($event)"
+  class="angular-paginator">
+</mat-paginator>
+
