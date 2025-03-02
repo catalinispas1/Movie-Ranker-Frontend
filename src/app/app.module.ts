@@ -21,13 +21,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AlertDialogFilterComponent } from './dashboard/alert-dialog-filter/alert-dialog-filter.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatDividerModule} from '@angular/material/divider';
+import { UserMovieStatisticsComponent } from './user-movie-statistics/user-movie-statistics.component';
+import { Interceptor } from './interceptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardViewComponent,
     MovieDetailsComponent,
-    AlertDialogFilterComponent
+    AlertDialogFilterComponent,
+    UserMovieStatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,9 @@ import {MatDividerModule} from '@angular/material/divider';
     FontAwesomeModule,
     MatDividerModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

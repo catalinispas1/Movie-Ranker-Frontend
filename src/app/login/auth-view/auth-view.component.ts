@@ -31,10 +31,16 @@ export class AuthViewComponent implements OnInit{
 
     this.loginService.authUser(username, password).subscribe({
       next: (tokenResponse: any) => {
+        console.log("am primit cererea de register");
+        
+        console.log("Token Response: ", tokenResponse);
+        
         const parsedResponse = typeof tokenResponse === 'string' ? JSON.parse(tokenResponse) : tokenResponse;
 
-        console.log("JSON Token: ", parsedResponse);
-        const authToken = parsedResponse.token;
+        console.log("JSON Token: ", parsedResponse.accessToken);
+        const authToken = parsedResponse.accessToken;
+        const refreshTOiken = parsedResponse.refreshToken;
+        localStorage.setItem("movie_ranker_refresh", refreshTOiken)
         localStorage.setItem("movie_ranker_auth", authToken)
         console.log("Token: ", authToken);
         this.router.navigateByUrl('/dashboard', { replaceUrl: true });

@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Your movie pattern</h1>
+<div mat-dialog-content>
+    <p><strong>Favorite movies count:</strong> {{ favoriteMoviesCount }} <mat-icon>favorite</mat-icon></p>
+    <p><strong>Average rating given on movies:</strong> {{ averageRating | number:'1.1-1' }} <mat-icon>star</mat-icon> / 5</p>
+    <p><strong>Comments count given on movies:</strong> {{ totalCommentsPosted }} <mat-icon>comment</mat-icon></p>
+    <p><strong>The count of genres that belongs to your favorite movie list:</strong></p>
+    <div class="genres-count">
+      <p *ngFor="let favCount of favoriteGenresCount">
+        {{favCount.genreName}}: {{ favCount.favorite_count }}
+      </p>
+    </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()" class="close-stats">Close</button>
+</div>

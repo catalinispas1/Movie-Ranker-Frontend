@@ -13,13 +13,13 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  loginUser(username: string, password: string): Observable<string> {
+  loginUser(username: string, password: string): Observable<{accessToken: string, refreshToken: string}> {
     const body = { username, password }
-    return this.http.post(this.loginUrl, body, {responseType: 'text'})
+    return this.http.post<{accessToken: string, refreshToken: string}>(this.loginUrl, body)
   }
   
-  authUser(username: string, password: string): Observable<string> {
+  authUser(username: string, password: string): Observable<{accessToken: string, refreshToken: string}>{
     const body = { username, password }
-    return this.http.post(this.newUserUrl, body, {responseType: 'text'})
+    return this.http.post<{accessToken: string, refreshToken: string}>(this.newUserUrl, body)
   }
 }

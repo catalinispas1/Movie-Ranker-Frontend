@@ -97,10 +97,9 @@ export class MovieDetailsComponent implements OnInit{
     this.getComments(this.currentCommentPage)
   }
 
-
   toggleFavorite() {
     if (this.isFavorite) {
-      this.movieService.removeFromFavorites(this.movieId).subscribe({
+      this.movieService.removeFromFavorites(this.movieId, this.currentMovie?.genres).subscribe({
         next: () => {
           console.log("Removed from favorites")
         },
@@ -110,7 +109,7 @@ export class MovieDetailsComponent implements OnInit{
       })
     }
     else {
-      this.movieService.addToFavorites(this.movieId, this.currentMovie?.poster_path, this.currentMovie?.title).subscribe({
+      this.movieService.addToFavorites(this.movieId, this.currentMovie?.poster_path, this.currentMovie?.title, this.currentMovie?.genres).subscribe({
         next: () => {
           console.log("Added to favorites");
         },
@@ -126,7 +125,6 @@ export class MovieDetailsComponent implements OnInit{
     } else {
       this.addToFavText = "Add to Favorites"
     }
-
   }
 
   selectRating(stars: number) {
@@ -161,7 +159,7 @@ export class MovieDetailsComponent implements OnInit{
           id: 0,
           commentedMovieId: 0,
           comment: comment,
-          commentatorName: "Just Posted By You",
+          commentatorName: "Your new comment",
           timePosted: "",
           currentPage: 0,
           totalPages: 0
@@ -182,7 +180,7 @@ export class MovieDetailsComponent implements OnInit{
         }
         
         this.displayedComments.push (...commentsResponse.content.map((comment) => {
-          const date = new Date(comment.timePosted); // Transformă string-ul în obiect Date
+          const date = new Date(comment.timePosted); // Transforma string-ul in obiect Date
           const formattedDate = date.toLocaleString('en-UK', { 
             year: 'numeric', 
             month: '2-digit', 

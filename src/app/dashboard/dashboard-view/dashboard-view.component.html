@@ -6,7 +6,9 @@
       <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" style="cursor: pointer; z-index: 1;" (click)="getFavoriteMovies()">
         <mat-icon>favorite</mat-icon>
       </button>
-      <span class="user_link pointer_cursor">Salut, {{userDetails?.username}}!</span>
+      <span class="user_link pointer_cursor" (click)="showUserStatisticsDialog()">Salut, {{userDetails?.username}}!
+        <button mat-button (click)="logout()"><mat-icon style="cursor: pointer; z-index: 1;">logout</mat-icon></button>
+      </span>
 </mat-toolbar>
 
 <form class="example-form" (ngSubmit)="onSearchSubmit(searchInput.value)">

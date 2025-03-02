@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login-view',
@@ -18,7 +19,17 @@ export class LoginViewComponent implements OnInit{
     private loginService: LoginService,
     private router: Router) {}
 
+    private isTokenExpired(token: string): boolean {
+      const decodedToken = jwtDecode(token) as { exp: number };
+      const expirationDate = new Date(decodedToken.exp * 1000);
+      return expirationDate < new Date();
+    }
+
   ngOnInit(): void {
+    const token = localStorage.getItem('movie_ranker_auth');
+    if (token && !this.isTokenExpired(token)) {
+      this.router.navigate(['/dashboard']);
+    }
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]]
@@ -26,11 +37,17 @@ export class LoginViewComponent implements OnInit{
   }
 
   onLogin() {
+    console.log("am primit cererea de login");
     const { username, password } = this.loginForm.value;
     this.errorMessage = ""
     this.loginService.loginUser(username, password).subscribe({
-      next: (token) => {
-        localStorage.setItem("movie_ranker_auth", token)
+      next: (tokens) => {
+        console.log("am primit cererea de login");
+        console.log(tokens);
+        console.log(tokens.accessToken);
+        
+        localStorage.setItem("movie_ranker_auth", tokens.accessToken)
+        localStorage.setItem("movie_ranker_refresh", tokens.refreshToken)
         this.router.navigateByUrl('/dashboard', { replaceUrl: true });
       },
       error: (error) => {

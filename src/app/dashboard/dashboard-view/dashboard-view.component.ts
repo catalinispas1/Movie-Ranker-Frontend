@@ -6,6 +6,7 @@ import { MovieResponse } from 'src/app/models/movie-response';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogFilterComponent } from '../alert-dialog-filter/alert-dialog-filter.component';
+import { UserMovieStatisticsComponent } from 'src/app/user-movie-statistics/user-movie-statistics.component';
 import { Movie } from 'src/app/models/movie';
 
 @Component({
@@ -26,15 +27,14 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
   userDetails: User | null = null
   movieResponse: MovieResponse | null = null
   queryParams: string = ""
-  currentPageIndex: number = 0;
+  currentPageIndex: number = 0
 
   ngOnInit(): void {
 
     this.dashboardService.getUserDetails().subscribe({
       next: (userDetails) => {
         this.userDetails = userDetails
-      },
-      error: () => { this.router.navigate(["/login"]) }
+      }
     })
 
     const currentPage = sessionStorage.getItem("page");
@@ -99,10 +99,6 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
             total_results: favoriteMovies.page.totalElements
           }
           this.scrollToSavedPosition()
-        },
-        error: (error) => {
-          if (error.status === 401) this.router.navigate(['/login'])
-          else console.log("Error calling the movie APi")
         }
       })
       return
@@ -114,10 +110,6 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
         next: (movieResponse) => {
           this.movieResponse = movieResponse
           this.scrollToSavedPosition()
-        },
-        error: (error) => {
-          if (error.status === 401) this.router.navigate(['/login'])
-          else console.log("Error calling the movie APi")
         }
       })
     } else if ((searchedMovie !== "" || searchedMovie !== null) && (filterMovie === "" || filterMovie === null)){
@@ -125,10 +117,6 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
         next: (movieResponse) => {
           this.movieResponse = movieResponse
           this.scrollToSavedPosition()
-        },
-        error: (error) => {
-          if (error.status === 401) this.router.navigate(['/login'])
-          else console.log("Error calling the movie APi")
         }
       })
     } else {
@@ -136,10 +124,6 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
         next: (movieResponse) => {
           this.movieResponse = movieResponse
           this.scrollToSavedPosition()
-        },
-        error: (error) => {
-          if (error.status === 401) this.router.navigate(['/login'])
-          else console.log("Error calling the movie APi")
         }
       })
     }
@@ -164,8 +148,6 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
     }
   }
   
-  
-
   onSearchSubmit(searchedMovie: string):void {
     sessionStorage.clear()
     sessionStorage.setItem("searchedMovie", searchedMovie)
@@ -183,6 +165,12 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
     })
   }
 
+  showUserStatisticsDialog(): void {
+    this.dialog.open(UserMovieStatisticsComponent, {
+      width: '600px',
+    })
+  }
+
   getFavoriteMovies(): void {
     sessionStorage.clear()
     sessionStorage.setItem("gettingFavMovies", "true")
@@ -197,5 +185,11 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
   refreshPage(): void {
     sessionStorage.clear()
     this.ngOnInit()
+  }
+
+  logout(): void {
+    sessionStorage.clear()
+    localStorage.clear()
+    this.router.navigateByUrl('/login', { replaceUrl: true })
   }
 }
