@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login-view',
@@ -14,6 +15,7 @@ export class LoginViewComponent implements OnInit{
   
   loginForm: FormGroup = new FormGroup({})
   errorMessage: string | null = null
+  displaySpinner: boolean = false
 
   constructor(private formBuilder: FormBuilder,
     private loginService: LoginService,
@@ -37,7 +39,8 @@ export class LoginViewComponent implements OnInit{
   }
 
   onLogin() {
-    console.log("am primit cererea de login");
+    console.log("am primit cererea de login");    
+    this.displaySpinner = true;
     const { username, password } = this.loginForm.value;
     this.errorMessage = ""
     this.loginService.loginUser(username, password).subscribe({
@@ -56,6 +59,7 @@ export class LoginViewComponent implements OnInit{
         } else {
           this.errorMessage = "An error occurred. Please try again."
         }
+        this.displaySpinner = false
       }
     });
   }

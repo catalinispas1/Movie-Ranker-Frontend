@@ -14,6 +14,7 @@ export class UserMovieStatisticsComponent {
   averageRating: number = 0
   totalCommentsPosted: number = 0
   favoriteGenresCount: FavoriteGenresCount[] = []
+  genresCountMessage: string = "You have no favorite movies, add some to see your favorite genres!"
 
   constructor(private http: HttpClient, 
     private statisticsService: StatisticsServiceService,
@@ -32,7 +33,8 @@ export class UserMovieStatisticsComponent {
 
     this.statisticsService.getAverageRating().subscribe({
       next: (rating) => {
-        this.averageRating = rating
+        if (rating === null) this.averageRating = 0
+        else this.averageRating = rating
       },
       error: () => {
         console.log("Error getting the average rating")
@@ -51,6 +53,9 @@ export class UserMovieStatisticsComponent {
     this.statisticsService.getFavoriteGenresCount().subscribe({
       next: (genres) => {
         this.favoriteGenresCount = genres
+        if (genres.length > 0) {
+          this.genresCountMessage = "The count of genres that belongs to your favorite movie list:"
+        }
       },
       error: () => {
         console.log("Error getting the favorite genres count")

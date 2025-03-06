@@ -22,6 +22,8 @@ export class Interceptor implements HttpInterceptor {
       req = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${accessToken}`)
       });
+    } else {
+      return next.handle(req);
     }
 
     return next.handle(req).pipe(
@@ -52,7 +54,7 @@ export class Interceptor implements HttpInterceptor {
         })
       );
     } else {
-      // Daca deja se face refresh, așteptam noul token si refacem cererea dupa ce este gata
+      // Daca deja se face refresh, asteptam noul token si refacem cererea dupa ce este gata
       return this.refreshTokenSubject.pipe(
         filter(token => token !== null),
         take(1),

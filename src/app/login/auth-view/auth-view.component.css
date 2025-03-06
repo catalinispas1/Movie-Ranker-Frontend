@@ -77,3 +77,8 @@ button:active {
     padding-right: 20%;
     text-align: center;
 }
+
+mat-spinner {
+    margin: 0 auto;
+    margin-top: 20px;
+}

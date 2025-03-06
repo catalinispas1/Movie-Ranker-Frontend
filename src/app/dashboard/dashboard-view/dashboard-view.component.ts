@@ -28,6 +28,7 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
   movieResponse: MovieResponse | null = null
   queryParams: string = ""
   currentPageIndex: number = 0
+  displaySpinner: boolean = true
 
   ngOnInit(): void {
 
@@ -64,6 +65,7 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
   }
 
   onPageEvent(event: PageEvent):void {
+    this.displaySpinner = true
     this.currentPageIndex = event.pageIndex;
     const pageIndex = event.pageIndex + 1
     sessionStorage.setItem("page", pageIndex + "")
@@ -137,6 +139,7 @@ export class DashboardViewComponent implements OnInit, AfterViewInit{
   }
 
   scrollToSavedPosition(): void {
+    this.displaySpinner = false
     if (sessionStorage.getItem("scrollPercentage")) {
       setTimeout(() => {
         const scrollPercentage = parseFloat(sessionStorage.getItem("scrollPercentage") || "0");

@@ -24,6 +24,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import { UserMovieStatisticsComponent } from './user-movie-statistics/user-movie-statistics.component';
 import { Interceptor } from './interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
     MatCheckboxModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    MatDividerModule
+    MatDividerModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true}

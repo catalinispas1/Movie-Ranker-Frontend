@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginViewComponent } from './login-view/login-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthViewComponent } from './auth-view/auth-view.component';
-
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -14,7 +13,8 @@ import { AuthViewComponent } from './auth-view/auth-view.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class LoginModule { }

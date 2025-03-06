@@ -24,7 +24,6 @@ export class MovieDetailsComponent implements OnInit{
   handleKeyDown(event: KeyboardEvent): void {
     if (event.key === 'F5' || (event.ctrlKey && event.key === 'r')) {
       event.preventDefault();
-      console.log("Refresh blocked!");
     }
   }
 
@@ -52,7 +51,6 @@ export class MovieDetailsComponent implements OnInit{
     this.movieService.getCurrentMovie(this.movieId).subscribe({
       next: (currentMovie) => {
         this.currentMovie = currentMovie
-        console.log(this.currentMovie);
       },
       error: () => {
         console.log("Error getting the current movie");
@@ -88,7 +86,6 @@ export class MovieDetailsComponent implements OnInit{
     this.movieService.getAverageRating(this.movieId).subscribe({
       next: (averageMovieRating) => {
         this.averageMovieRating = averageMovieRating
-        console.log("Average rating is " + averageMovieRating);
       },
       error: () => {
         console.log("Error getting the average rating")
@@ -180,7 +177,7 @@ export class MovieDetailsComponent implements OnInit{
         }
         
         this.displayedComments.push (...commentsResponse.content.map((comment) => {
-          const date = new Date(comment.timePosted); // Transforma string-ul in obiect Date
+          const date = new Date(comment.timePosted); // transforma string in Date
           const formattedDate = date.toLocaleString('en-UK', { 
             year: 'numeric', 
             month: '2-digit', 

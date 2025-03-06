@@ -12,5 +12,7 @@
 
     <button type="button" (click)="navigateToAuth()">New User? Create an account now!</button>
 </form>
+
+<mat-spinner diameter="70" *ngIf="displaySpinner"></mat-spinner>
 <p class="errorMessage">{{errorMessage}}</p>
 

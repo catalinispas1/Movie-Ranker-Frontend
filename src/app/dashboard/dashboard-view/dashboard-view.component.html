@@ -19,7 +19,9 @@
 </form>
 
 <div class="grid_centered">
-  <div class="grid_film_container">
+  
+  <mat-spinner *ngIf="displaySpinner"></mat-spinner>
+  <div *ngIf="!displaySpinner" class="grid_film_container">
       <div *ngFor="let movie of movieResponse?.results" [routerLink]="['/movie/details']" [queryParams]="{ movie_id: movie.id }" class="flex_film_container" (click)="saveScrollPosition()">
         <h2 class="movie_title">{{movie?.title}}</h2>
         <img [src]="'https://image.tmdb.org/t/p/w300' + movie?.poster_path" alt="{{movie?.title}}" id="poster_image">
